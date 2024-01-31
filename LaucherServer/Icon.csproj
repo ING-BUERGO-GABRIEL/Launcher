@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4BE0AA44-5565-4639-88BB-4C3578443B3B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LauncherServer</RootNamespace>
+    <AssemblyName>LauncherServer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\LaucherServer\LauncherRamses\bin\x64\Release\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GestoresLauncher\GestionaHerramientas.cs" />
+    <Compile Include="Interfaces\IUserControlActualizar.cs" />
+    <Compile Include="Modelo\ModeloConexion.cs" />
+    <Compile Include="Modelo\ModeloListaExtenciones.cs" />
+    <Compile Include="Modelo\ModeloMaquina.cs" />
+    <Compile Include="Modelo\ModeloVersionClient.cs" />
+    <Compile Include="Modelo\TCP\TCPProtocolo.cs" />
+    <Compile Include="Presentacion\FrmMonitorClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentacion\FrmMonitorClientes.Designer.cs">
+      <DependentUpon>FrmMonitorClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\FrmActualizar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\FrmActualizar.Designer.cs">
+      <DependentUpon>FrmActualizar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\FrmConfiguracion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentacion\FrmConfiguracion.Designer.cs">
+      <DependentUpon>FrmConfiguracion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\FrmCargando.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\UCActualizacion\UCAdminUsuarios.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\UCActualizacion\UCAdminUsuarios.Designer.cs">
+      <DependentUpon>UCAdminUsuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\UCActualizacion\UCTipoAccion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\RmsUpdate\UCActualizacion\UCTipoAccion.Designer.cs">
+      <DependentUpon>UCTipoAccion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\UserControll\UCGridViewMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\UserControll\UCGridViewMonitor.Designer.cs">
+      <DependentUpon>UCGridViewMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\UserControll\UCNotificaciones.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\UserControll\UCNotificaciones.Designer.cs">
+      <DependentUpon>UCNotificaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\NomRecursos\NomCarpeta.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NomCarpeta.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\NomRecursos\NomKeyConfig.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NomKeyConfig.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Service\ServiceConfig.cs" />
+    <Compile Include="GestoresLauncher\GestionaArchivos.cs" />
+    <Compile Include="GestoresLauncher\GestionaPrivilegios.cs" />
+    <Compile Include="GestoresLauncher\GestionaConfig.cs" />
+    <Compile Include="LauncherServerC.cs" />
+    <Compile Include="Modelo\ModeloListaNegra.cs" />
+    <Compile Include="Modelo\ModeloModulo.cs" />
+    <Compile Include="Presentacion\FrmMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentacion\FrmMonitor.Designer.cs">
+      <DependentUpon>FrmMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\NomRecursos\NomJson.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NomJson.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Service\ServiceLauncher.cs" />
+    <Compile Include="Service\ServiceListaExtenciones.cs" />
+    <Compile Include="Service\ServiceListaNegra.cs" />
+    <Compile Include="Service\ServiceMaquina.cs" />
+    <Compile Include="Service\ServiceModulo.cs" />
+    <Compile Include="TCP\TcpComunica.cs" />
+    <EmbeddedResource Include="Presentacion\FrmMonitorClientes.resx">
+      <DependentUpon>FrmMonitorClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\RmsUpdate\FrmActualizar.resx">
+      <DependentUpon>FrmActualizar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\FrmConfiguracion.resx">
+      <DependentUpon>FrmConfiguracion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\RmsUpdate\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\FrmMonitor.resx">
+      <DependentUpon>FrmMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\RmsUpdate\UCActualizacion\UCAdminUsuarios.resx">
+      <DependentUpon>UCAdminUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\RmsUpdate\UCActualizacion\UCTipoAccion.resx">
+      <DependentUpon>UCTipoAccion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\UserControll\UCNotificaciones.resx">
+      <DependentUpon>UCNotificaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Resources\NomRecursos\NomCarpeta.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NomCarpeta.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\NomRecursos\NomJson.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NomJson.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\NomRecursos\NomKeyConfig.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NomKeyConfig.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="CrearReglas.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Resources\Json\ListaNegra_Extenciones.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Json\ListaNegra_servidor.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="NetFwTypeLib">
+      <Guid>{58FBCF7C-E7A9-467C-80B3-FC65E8FCCA08}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+    <Content Include="UpdateLauncher\Actualizacion\Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UpdateLauncher\Update\Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\cargando.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UpdateNuevo3\RmsUpdateApiNet\RmsUpdateApiNet.csproj">
+      <Project>{80c38e2b-d882-4346-9fd0-1ea98c6d72a2}</Project>
+      <Name>RmsUpdateApiNet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Json\Enviar\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y /s /d ..\LaucherRamSes\LauncherRamses\bin\Release\* $(OutDir)UpdateLauncher\Actualizacion" />
+    <Exec Command="xcopy /y /s /d ..\LaucherRamSes\LauncherRamses\bin\Release\UpdateLauncher\Update\* $(OutDir)UpdateLauncher\Update" />
+    <Exec Command="rd /s /q $(OutDir)UpdateLauncher\Actualizacion\UpdateLauncher" />
+    <Exec Command="rd /s /q $(OutDir)UpdateLauncher\Actualizacion\Ramses" />
+  </Target>
+</Project>

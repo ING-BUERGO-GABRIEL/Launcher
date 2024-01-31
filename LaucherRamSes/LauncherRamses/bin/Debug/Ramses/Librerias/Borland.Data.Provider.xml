@@ -1,0 +1,2279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+   <assembly>Borland.Data.Provider</assembly>
+   <members>
+      <member name="T:Borland.Data.Provider.DataSync">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Provides and resolves a .NET DataSet from multiple heterogeneous data sources.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Supports live data at design-time from any .NET data provider. DataSync also provides and resolves master-detail relationships, and generates optimal SQL for resolving to BDP data sources.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">DataSync implements <interface namespace="Borland.Data.Provider">IDataProvider</interface> and has a <class namespace="Borland.Data.Provider">DataProviderCollection</class> that can contain any .NET data provider that implements <interface namespace="Borland.Data.Provider">IDbDataAdapter</interface>. </para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.DataSync">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of a <class namespace="Borland.Data.DataSync">DataSync</class> object.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.InitializeLifetimeService">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Initializes the marshal-by-reference lifetime service on the <class namespace="Borland.Data.DataSync">DataSync</class> object.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The lifetime of a marshal-by-reference object is controlled by a lease manager and one or more sponsors. Sponsors are objects that can renew a lease for a particular object by registering with a lease manager. When an MBR object leaves an application domain, the lease manager for that domain is responsible for creating a lifetime lease for the object. The lease manager periodically checks for the lease expiration. If a lease has expired, the sponsors for that object will be contacted to renew the lease. If no renewal occurs, the lease is removed and the object will be garbage-collected. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You can customize the lease by overriding MarshalByRefObject.InitializeLifetimeService in your MBR object. This method is called when the MBR object is activated for the first time. A null lease returned will give an infinite lifetime. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Using lease-for-lifetime management is a better approach than reference counting and constantly pinging the client (as in COM) because there is less network traffic. In addition, if a client goes offline unexpectedly, the client might not have decremented the reference count, leaving the server to run forever. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Providers">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A <class namespace="Borland.Data.Provider">DataProviderCollection</class> containing the names of all available data providers on the system.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.CommitBehavior">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Specifies how the resolver should handle failures. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Takes one of the <type namespace="Borland.Data.DataSync">CommitBehaviorType</type> values.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Reconcile">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Specifies how the resolver should reconcile conflict.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Specifies how the resolver should reconcile conflict.</para>
+         </comments>
+      </member>
+      <member name="T:Borland.Data.Provider.DataHub">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <class namespace="Borland.Data.Provider">DataHub</class> serves as a conduit between a DataSet and a <class namespace="Borland.Data.Provider">DataSync</class>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <class namespace="Borland.Data.Provider">DataHub</class> works together with <class namespace="Borland.Data.Provider">DataSync</class> to provide and resolve a .NET DataSet from multiple heterogeneous data sources. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Additionally, these components:</para>
+            <list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="bullet">
+               
+               <item>
+                  
+                  <para>Support live data at design-time from any .NET data provider</para>
+               
+               </item>
+               
+               <item>
+                  
+                  <para>Provide and resolve master-detail data</para>
+               
+               </item>
+               
+               <item>
+                  
+                  <para>Generate optimal SQL for resolving to BDP data sources</para>
+               
+               </item>
+            
+            </list>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> The <property namespace="Borland.Data.Provider" class="DataHub">DataPort</property> property can be set to any IDataProvider implementation. IDataProvider has methods GetData() and SaveData() to provide and resolve data from a DataSet. To populate a DataSet, DataHub calls IDataProvider methods GetData() when DataHub.Active property is set to True. DataHub.ApplyChanges() calls IDataProvider method SaveData() to resolve back changes. </para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.DataHub">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of a <class namespace="Borland.Data.DataSync">DataHub</class> object.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.HasChanges">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Indicates that there are unsynchronized changes in the <class namespace="Borland.Data.DataSync">DataHub</class>.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.Refresh">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Refreshes data in the <class namespace="Borland.Data.DataSync">DataHub</class>.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.ApplyChanges">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Applies changes from the <property namespace="borland.data.provider" class="datahub">DataSet</property> to the data source.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">This method makes a call to the <class namespace="Borland.Data.DataSync">DataHub</class>. <method namespace="Borland.Data.DataSync" class="DataHub">HasChanges</method> method.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Active">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If <b>True</b>, the <class namespace="Borland.Data.DataSync">DataHub</class> is enabled, otherwise, if <b>False</b>, it is disabled.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DataPort">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Specifies the data port for the <class namespace="Borland.Data.DataSync">DataHub</class>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The data port in this property is a data provider object.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DataSet">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <property namespace="borland.data.provider" class="datahub">DataSet</property> associated with the current <class namespace="Borland.Data.DataSync">DataHub</class>.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Providers">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A <class namespace="Borland.Data.Provider">DataProviderCollection</class> containing the names of all available data providers.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="T:Borland.Data.Provider.BdpConnection">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of the <class namespace="Borland.Data.Provider">BdpConnection</class> object.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of the <class namespace="Borland.Data.Provider">BdpConnection</class> object.
+Upon creation of the object instance, all properties are set to their initial
+values. You must explicitly close any open connection using the <method interface="IDbConnection" namespace="Borland.Data.Provider">Close</method> method. There is no notion
+of an implicit disconnection in the .NET environment.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">To establish a database connection, you must create a new <class namespace="Borland.Data.Provider">BdpConnection</class> object
+and you must set its <property class="BdpConnection" namespace="Borland.Data.Provider">ConnectionString</property> property.
+The <property class="BdpConnection" namespace="Borland.Data.Provider">ConnectionString</property> is
+a name-value pair of all the parameters needed to connect to a particular
+database. The <property class="BdpConnection" namespace="Borland.Data.Provider">ConnectionString</property> is
+used as an identifier for creating a connection pool. BDP supports Connection
+pooling and is enabled by default. The <property class="BdpConnection" namespace="Borland.Data.Provider">ConnectionOptions</property> property
+holds a name-value pair of database-specific connection-level properties.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <class namespace="Borland.Data.Provider">BdpConnection</class> has
+Open() and Close() methods to connect and disconnect from a database. The
+Open() method used the connection parameters specified in the <property class="BdpConnection" namespace="Borland.Data.Provider">ConnectionString</property> property to
+establish a connection to a database. For every Open() method, you should
+include a corresponding Close() method. Otherwise, the connection might not
+be closed properly and a subsequent connection attempt will fail with an exception.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A valid connection must be opened before you can use the <class namespace="Borland.Data.Provider">BdpConnection</class> to
+create a new BdpCommand, a new BeginTransaction, or to get access to the <interface namespace="Borland.Data.Schema">ISQLMetadata</interface> or <interface namespace="Borland.Data.Schema">ISQLResolver</interface> interfaces.</para>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <para>
+                  
+                  <interface namespace="Borland.Data.Schema">ISQLMetadata</interface> and <interface namespace="Borland.Data.Schema">ISQLResolver</interface> are BDP extensions
+to ADO.NET data providers. These interfaces simplify schema retrieval and
+resolving SQL generation. </para>
+            
+            </note>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The following code snippet shows the <property class="BdpConnection" namespace="Borland.Data.Provider">ConnectionString</property> and <property class="BdpConnection" namespace="Borland.Data.Provider">ConnectionOptions</property> needed
+to connect to InterBase.</para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp">using System;
+using System.Data;
+using Borland.Data.Provider;
+using Borland.Data.Common;
+
+class test 
+{
+   static void Main()
+   {
+      ConnectionState state;
+      BdpTransaction Trans = null;
+      BdpCommand Comm      = null;
+      String ConnStr =   "Provider=interbase;"
+        + "Assembly=Borland.Data.Interbase,Version=1.1.0.0,"
+        + "Culture=neutral,PublicKeyToken=91d62ebb5b0d1b1b;"
+        + "Database=localhost:c:\\IB7\\examples\\database\\employee.gdb;"
+        + "UserName=sysdba;Password=masterkey";
+
+      String ConnOptions = "LoginPrompt=true;SQLDialect=3;RoleName=Vina;"
+        + "CommitRetain=true;ServerCharSet=UNICODE_FSS;RollbackRetain=False;"
+        + "TxnIsolation=ReadCommitted;WaitOnLocks=true";
+
+      BdpConnection Conn = new BdpConnection();
+      Conn.ConnectionString = ConnStr;
+      Conn.ConnectionOptions =  ConnOptions;
+       
+           
+      try 
+      {
+         Conn.Open();
+      }
+      catch ( BdpException e)
+      {
+         for (int j= 0; j &lt; e.Errors.Count; j++)
+         {
+           Console.WriteLine(e.Errors[j].Message);
+         }
+         return;
+      }
+
+      Trans = (BdpTransaction)Conn.BeginTransaction();
+
+      Comm = (BdpCommand) Conn.CreateCommand();
+      Comm.Connection   = Conn;
+      Comm.Transaction  = Trans;
+
+      ----
+
+      Comm.Close();
+      Trans.Commit();
+      Conn.Close();
+   }
+}
+</codeBlock>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.BdpConnection">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of a <class namespace="Borland.Data.Provider">BdpConnection</class> object, which represents an open connection to a specified data source.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                        
+                  <th>Type</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>sConnString</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies the connection string, including the necessary parameters to connect to your data source. Parameters are specified as name-value pairs.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>String</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpConnection</class> object represents a connection to a specified data source. The <class namespace="Borland.Data.Provider">BdpConnection</class> object contains the connection string, along with other properties. You need to explicitly open and close connections using the <method namespace="Borland.Data.Provider" class="BdpConnection">Open</method> and <method namespace="Borland.Data.Provider" class="BdpConnection">Close</method> methods, respectively. There is no notion in the .NET Framework of an implicit open or close operation.</para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.BeginTransaction">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Starts a transaction on the connection.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                        
+                  <th>Type</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>level</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies the isolation level for the transaction.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <class namespace="System.Data">IsolationLevel</class>
+                           
+                     </para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>transName</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies the transaction name. </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>String</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Isolation level is described in the following table.</para>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Isolation Level</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <b>ReadCommitted</b>
+                           
+                     </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Shared locks are held while the data is being read to avoid dirty reads, but the data can be changed before the end of the transaction, resulting in non-repeatable reads or phantom data.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <b>DirtyRead</b>
+                           
+                     </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A dirty read is possible, meaning that no shared locks are issued and no exclusive locks are honored.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <b>RepeatableRead</b>
+                           
+                     </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Locks are placed on all data that is used in a query, preventing other users from updating the data. Prevents non-repeatable reads but phantom rows are still possible.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <b>Custom</b>
+                           
+                     </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Using a different isolation level than the one specified, but the actual level cannot be determined.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.GetMetaData">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets the metadata object for the current connection.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">This method returns the <interface namespace="Borland.Data.Schema">ISQLMetaData</interface> interface, which provides the means to return various objects and schema from a database table.</para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.GetResolver">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns a class of type ISQLResolver, which contains a user-specified SQL statement.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If you want to update rows in the database based on specific criteria, you can set the UpdateMode property, and can create customized SQL statements that supercede the auto-generated SQL statements that result from using the Configure Data Adapter dialog. This method returns a set of properties and methods that consist of the information needed to correctly resolve updates between the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> and your database table.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.ConnectionString">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Contains the information necessary to connect to a database.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You set the <property namespace="Borland.Data.Provider" interface="IDbConnection">ConnectionString</property> property before opening a connection. Many of the connection string values have corresponding read-only properties. When you set the connection string, all of these properties are updated, except when an error is detected. In that case, none of the properties are updated. <class namespace="Borland.Data.Provider">BdpConnection</class> properties return only those settings contained in the <property namespace="Borland.Data.Provider" interface="IDbConnection">ConnectionString</property>. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Resetting the <property namespace="Borland.Data.Provider" interface="IDbConnection">ConnectionString</property> on a closed connection resets all connection string values (and related properties). The connection string is fully validated when an application calls the <method namespace="Borland.Data.Provider" interface="IDbConnection">Open</method> method. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The runtime throws an exception if the connection string contains invalid properties or tries to connect to a data source that does not support the named properties. You can delimit values with single or double quotes. You must separate keyword value pairs by semicolons (;). You cannot use escape sequences. Names are not case sensitive. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.ConnectionOptions">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets optional connection options as indicated by the <type namespace="Borland.Data.Common">BdpOptions</type> enumerator.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Your target database might allow you to specify optional connection options. Use this read-write property to get or set runtime properties for a particular connection. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.ConnectionTimeout">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns the time to wait while trying to establish a connection before terminating the attempt and generating an error.</para>
+         </summary>
+         <comments>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>Currently unsupported by BDP.NET.</para>
+                  
+            </note>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The number of seconds to wait for a connection to open. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Database">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Contains the name of the current database or the database to be connected.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You can get or set the database name. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.State">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the current state of the connection.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Currently, the .NET framework supports only two connection states: open and closed. </para>
+         </comments>
+      </member>
+      <member name="E:Borland.Data.Provider.Borland.Data.Provider.StateChange">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Indicates a change in the state of the connection.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The event is triggered when a connection is opened or closed. If you attempt to change to another database, this event is triggered.</para>
+         </comments>
+      </member>
+      <member name="T:Borland.Data.Provider.BdpTransaction">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Represents an instance of the <class namespace="Borland.Data.Provider">BdpTransaction</class> object.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use the <method namespace="Borland.Data.Provider" class="BdpConnection">BeginTransaction</method> method in <class namespace="Borland.Data.Provider">BdpConnection</class> to create a new instance of the <class namespace="Borland.Data.Provider">BdpTransaction</class> object. You use this method within the context of a <class namespace="Borland.Data.Provider">BdpConnection</class> object. Each transaction is directly related to a specific connection. The connection must be open before calling <method namespace="Borland.Data.Provider" class="BdpConnection">BeginTransaction</method>.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <class namespace="Borland.Data.Provider">BdpTransaction</class> takes care of controlling a database transaction with respect to a connection. Calling the <class namespace="Borland.Data.Provider">BdpConnection</class>. <method namespace="Borland.Data.Provider" class="BdpConnection">BeginTransaction</method> method on an opened connection returns a new <class namespace="Borland.Data.Provider">BdpTransaction</class> object. The <method namespace="Borland.Data.Provider" class="BdpTransaction">Commit</method> and <method class="BdpTransaction" namespace="Borland.Data.Provider">Rollback</method> methods take care of committing or rolling back a transaction. For setting different isolation levels, the <property namespace="Borland.Data.Provider" class="BdpTransaction">IsolationLevel</property> property can be used, and the default isolation is <i>ReadCommitted</i> . The current implementation does not support multiple transactions on a single connection. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The following code snippet shows runtime parameter binding and execution of a stored procedure in the context of a transaction.</para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">static void BindParameter ( BdpConnection Conn, Int32 Times )
+ {
+     Int32 Count = 0, Rows = 0;
+     BdpTransaction Trans = (BdpTransaction) Conn.BeginTransaction();
+      
+     BdpCommand Comm = (BdpCommand) Conn.CreateCommand();
+     Comm.Connection   = Conn;
+     Comm.Transaction  = Trans;
+
+     Comm.CommandType = CommandType.StoredProcedure; 
+     Comm.CommandText  = "MYTESTPROC";
+     Comm.ParameterCount = 3;
+
+     Comm.Prepare();
+
+     BdpParameter param1 = Comm.Parameters.Add("P1", 
+	   DbType.StringFixedLength, 10);
+     BdpParameter param2 = Comm.Parameters.Add("P2", 
+	   DbType.String, 5);
+     param2.Direction = ParameterDirection.InputOutput;
+     param2.Precision = 25;
+     BdpParameter param3 = Comm.Parameters.Add("P3", 
+	   DbType.Decimal);
+     param3.Direction = ParameterDirection.Output;
+          
+     
+     while ( Count &lt; Times )
+   	{
+     	param1.Value = "Record" + Count;
+     	param2.Value = "Hello";
+     	param3.Value = null;
+
+     	Rows = Comm.ExecuteNonQuery();
+        Console.WriteLine("Output param from  MYTESTPROC=  " + param2.Value );
+        Console.WriteLine("InputOutput param from  MYTESTPROC=  " + param3.Value );
+        Count ++;
+
+     }
+
+     Comm.Close();
+
+     Trans.Commit();
+  }
+</codeBlock>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.Commit">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Commits a transaction.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                        
+                  <th>Type</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>transName</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The transaction name.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>String</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If the commit fails, this method throws an exception, typically indicating that the transaction has been committed already, does not exist, or that the connection is broken.</para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.Rollback">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Discards the actions performed in a pending transaction.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>transName</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The name of the transaction.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The transaction can only be rolled back from a pending state, after <property namespace="Borland.Data.Provider" class="BdpTransaction">BeginTransaction</property> has been called, but before <property namespace="Borland.Data.Provider" class="BdpTransaction">Commit</property> is called.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.IsolationLevel">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns the isolation level of the transaction.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns one of the valid isolation level values for the transaction. Isolation level refers to the relative integrity of a transaction. The <class namespace="Borland.Data.Provider">BdpTransaction</class> object supports the following isolation levels.</para>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Value</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>ReadCommitted</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Shared locks are held while the data is being read to avoid dirty reads, but the data can be changed before the end of the transaction, resulting in non-repeatable reads or phantom data.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>DirtyRead</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A dirty read is possible, meaning that no shared locks are issued and no exclusive locks are honored.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>RepeatableRead</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Locks are placed on all data that is used in a query, preventing other users from updating the data. Prevents non-repeatable reads but phantom rows are still possible.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>Custom</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>For setting database-specific isolation levels. Not currently supported. Included for future use.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Connection">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns the <class namespace="Borland.Data.Provider">BdpConnection</class> object associated with the transaction. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use the <property namespace="Borland.Data.Provider" class="BdpTransaction">Connection</property> property to retrieve the database connection in order to indicate which connection takes the specified transaction. Returns null if the transaction is no longer valid.</para>
+         </comments>
+      </member>
+      <member name="T:Borland.Data.Provider.BdpCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of a <class namespace="Borland.Data.Provider">BdpCommand</class> object.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use the <class namespace="Borland.Data.Provider">BdpCommand</class> constructor to create a new instance of a <class namespace="Borland.Data.Provider">BdpCommand</class> object. In <varProduct name="Product"/>, the <class namespace="Borland.Data.Provider">BdpCommand</class> object is created automatically in your project when you create a <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object. The <class namespace="Borland.Data.Provider">BdpCommand</class> object provides the means for executing SQL statements and stored procedures. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <property namespace="Borland.Data.Provider" class="BdpCommand">CommandType</property> property specifies whether a SQL statement, a table name, or a stored procedure name is being used in the CommandText property. The following conditions should be met before executing SQL:</para>
+            <list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="bullet">
+               
+               <item>
+                  
+                  <para>The <property namespace="Borland.Data.Provider" class="BdpCommand">Connection</property> property should be set to a valid <class namespace="Borland.Data.Provider">BdpConnection</class>.</para>
+               
+               </item>
+               
+               <item>
+                  
+                  <para>The <property namespace="Borland.Data.Provider" class="BdpCommand">Transaction</property> property must be set to a valid <class namespace="Borland.Data.Provider">BdpTransaction</class>, to execute a SQL statement in the context of a transaction.</para>
+               
+               </item>
+            
+            </list>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Depending on the type of SQL statement being executed, you can use one of the following methods:</para>
+            <list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="bullet">
+               
+               <item>
+                  
+                  <para>
+                     
+                     <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteReader</method>. Used for Select statements and stored procedures that return a cursor or multiple cursors. A new <class namespace="Borland.Data.Provider">BdpDataReader</class> is returned if <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteReader</method> successfully processes the SQL statement.</para>
+               
+               </item>
+               
+               <item>
+                  
+                  <para>
+                     
+                     <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteScalar</method>. Similar to <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteReader</method> but returns only the first column of the first record as an object and is primarily used to execute SQL to return aggregate values.</para>
+               
+               </item>
+               
+               <item>
+                  
+                  <para>
+                     
+                     <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteNonQuery</method>. Executes DDL or non-Select DML statements or stored procedures that return no cursor. On successful execution of a DML statement, ExecuteNonQuery returns the number of rows affected in the database.</para>
+               
+               </item>
+            
+            </list>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">To execute parameterized SQL, you can specify the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property> values with parameter markers. <varTechnology name="BDP"/> uses the <b>?</b> as parameter markers. Currently, there is no support for named parameters. The <property namespace="Borland.Data.Provider" class="BdpCommand">ParameterCount</property> property specifies the number of parameter markers in the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property>. During preparation, the database-specific BDP provider implementation takes care of converting the <b>?</b> parameter markers to database-specific parameter markers and also takes care of generating the appropriate SQL for calling a stored procedure.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">When executing the same SQL repeatedly, call the Prepare() method once and bind parameters. You specify parameters by adding a BdpParameterCollection to the <class namespace="Borland.Data.Provider">BdpCommand</class>.Parameters property. Preparing a parameterized SQL statement on most databases creates an execution plan on the server that is then used during subsequent execution of the same SQL with different parameter values.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Once the <class namespace="Borland.Data.Provider">BdpCommand</class> is complete, calling Close() frees all of the statement resources allocated by the provider. Use the CommandOptions property to pass optional command-level properties.</para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.BdpCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Executes a command against a data source.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                        
+                  <th>Type</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>cmdText</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The SQL command you want to execute. Optional.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>String. </para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>connection</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A <class namespace="Borland.Data.Provider">BdpConnection</class> object.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <class namespace="Borland.Data.Provider">BdpConnection</class>.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>txn</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A <class namespace="Borland.Data.Provider">BdpTransaction</class> object.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <class namespace="Borland.Data.Provider">BdpTransaction</class>.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You can create a new instance of a <class namespace="Borland.Data.Provider">BdpCommand</class> object by calling this method without any parameters. This initializes all the read-write properties of the object. If you want to reuse a <class namespace="Borland.Data.Provider">BdpCommand</class> object you have already instantiated, you can do that by resetting the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property> property with a different SQL command. You must close any open <class namespace="Borland.Data.Provider">BdpDataReader</class> objects before you can execute another command.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> The <class namespace="Borland.Data.Provider">BdpCommand</class> object exposes the standard .NET <class namespace="System.Data">Command</class> methods to execute commands, as described in the following table.</para>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Method</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>ExecuteDataReader</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Returns a DataReader object, based on a SELECT against the database. You cannot update data when using a DataReader object. To update data, use the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>ExecuteScalar</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Returns a single value, from a single field in a table row.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>ExecuteNonQuery</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Executes a DDL statement against the database. Returns no result sets.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>Prepare</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Creates an execution plan for the command. In effect, using this method is equivalent to pre-compiling the command.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.Close">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Closes the <class namespace="Borland.Data.Provider">BdpCommand</class> object and frees the internal resources.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Call the <method namespace="Borland.Data.Provider" class="BdpCommand">Close</method> method if you need to re-execute a new SQL query with the same command. Your application can call the <method namespace="Borland.Data.Provider" class="BdpCommand">Close</method> method more than one time without generating an exception.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You can call the <method namespace="Borland.Data.Provider" class="BdpCommand">Close</method> method on a DataReader object to close the <class namespace="Borland.Data.Provider">BdpCommand</class> data reader. </para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">
+using System;
+using System.Data;
+using Borland.Data.Provider;
+
+string bdpConn, bdpSQL;
+Conn = "Provider=INTERBASE;VendorClient=gds32.dll;Database=employee.gdb;
+	Username="SYSDBA";Password="masterkey";Assembly=&lt;assembly name&gt;; /* Specify correct assembly name. */
+BdpConnection bdpConn = new BdpConnection(Conn);
+bdpConn.Open();
+bdpSQL = "SELECT * FROM Employee";
+BdpCommand bdpCmd = new BdpCommand(bdpSQL, bdpConn);
+BdpCommand bdpCmd = new BdpCommand(bdpSQL, bdpConn);
+BdpDataReader bdpReader = bdpCmd.ExecuteReader();
+		while (bdpReader.Read())
+					Console.WriteLine(bdpReader["EmployeeID"] + " : " + 
+							bdpReader["Last Name"] + ", " + bdpReader["First Name"]);
+bdpReader.Close();
+		</codeBlock>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="Delphi" os="all" product="all" status="release">
+uses System, System.Data, Borland.Data.Provider;
+
+string TConn, TSQL;
+Conn = "Provider=INTERBASE;VendorClient=gds32.dll;Database=employee.gdb;
+	Username="SYSDBA";Password="masterkey";Assembly=&lt;assembly name&gt;; /* Specify correct assembly name. */
+TConn: TADONETConnection(Conn);
+TConn.Open();
+TSQL = "SELECT * FROM Employee";
+TCommand: TADONETCommand(TSQL, TConn);
+BdpDataReader bdpReader = bdpCmd.ExecuteReader();
+		while (bdpReader.Read())
+					Console.WriteLine(bdpReader["EmployeeID"] + " : " + 
+							bdpReader["Last Name"] + ", " + bdpReader["First Name"]);
+bdpReader.Close();
+		</codeBlock>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.CommandText">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the SQL statement, table name, or stored procedure to execute at the data source.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">When you set the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandType</property> property to <i>StoredProcedure</i>, you set the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property> property to the name of the stored procedure. You might need to use escape character syntax if your stored procedure name contains special characters, such as underscores. The command executes this stored procedure when you call either the <method namespace="System.Data" interface="IDbCommand">ExecuteReader</method>, <method namespace="System.Data" interface="IDbCommand">ExecuteScalar</method>, or <method namespace="System.Data" interface="IDbCommand">ExecuteNonQuery</method> methods. When you set the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandType</property> property to <i>TableDirect</i>, you set the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property> property to the name of the table you want to access. You might need to use escape character syntax if any of the tables contain special characters. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.CommandType">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandType</property> property which indicates how to interpret the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property> property.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">When you set the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandType</property> property to <i>StoredProcedure</i>, you should set the <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property> property to the name of the stored procedure. The command executes this stored procedure when you call the <method namespace="System.Data" interface="IDbCommand">ExecuteScalar</method>, <method namespace="System.Data" interface="IDbCommand">ExecuteReader</method>, or <method namespace="System.Data" interface="IDbCommand">ExecuteNonQuery</method> methods. The <property namespace="Borland.Data.Provider" class="BdpCommand">Connection</property>, <property namespace="Borland.Data.Provider" class="BdpCommand">CommandType</property> and <property namespace="Borland.Data.Provider" class="BdpCommand">CommandText</property> properties cannot be set if the current connection is performing an execute or fetch operation. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">BDP.NET supports the <i>?</i> symbol for passing parameters to a SQL Statement or a stored procedure called by a <class namespace="Borland.Data.Provider">BdpCommand</class> when <property class="BdpCommand" namespace="Borland.Data.Provider">CommandType</property> is set to <i>Text</i>. In this case, you must use the <i>?</i> placeholder. </para>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Type</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>Text</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A SQL command. Default.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>TableDirect</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>If you set the <property namespace="borland.data.provider" class="bdpcommand">CommandType</property> property to TableDirect, set the <property namespace="borland.data.provider" class="bdpcommand">CommandText</property> property to the name of the table you want to access. You might need to use escape characters or other qualifying characters if the tables contain special characters. When you call one of the Execute methods, the query returns all rows and columns. </para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>StoredProcedure</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The name of a stored procedure.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.CommandOptions">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets any command level options you want to pass to the database.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Command level options are options specific to a particular database that you issue along with your SQL commands. An example might be a command to pre-fetch rows, which often must be issued just prior to or concurrent with the SELECT. For more information, see the documentation for your particular database system.</para>
+            <warning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>This property is not supported currently, but is included for future use.</para>
+                  
+            </warning>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.SchemaName">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Used to filter objects in the <ide type="dialog">CommandText Editor</ide>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Contains the name of the database schema that is to be used to filter the objects that appear in the <ide type="dialog">CommandText Editor</ide>, based on a given <class namespace="Borland.Data.Provider">BdpConnection</class>. If a schema name is not specified, all of the available objects for the current user login are listed.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.ParameterCount">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the number of parameters in the command.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Set this property before executing a call to the <method namespace="Borland.Data.Provider" interface="ISQLCommand">Prepare</method> method. This allows BDP.NET to perform special handling of the parameter markers, if needed. The value for the count is an Int16 value. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Parameters">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets the <class namespace="Borland.Data.Provider">BdpParameterCollection</class>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The parameters of the SQL statement or stored procedure. The default is an empty collection. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">BDP.NET does not support named parameters for passing parameters to a SQL Statement or a stored procedure called by an <class namespace="Borland.Data.Provider">BdpCommand</class> when <property namespace="System.Data" interface="IDbCommand">CommandType</property> is set to Text. In this case, the question mark (?) placeholder must be used. For example: <keyinput>SELECT * FROM Employee WHERE EmployeeID = ? </keyinput>. The order in which <class namespace="Borland.Data.Provider">BdpParameter</class> objects are added to the <class namespace="Borland.Data.Provider">BdpParameterCollection</class> must directly correspond to the position of the question mark placeholder for the parameter. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If the parameters in the collection do not match the requirements of the query to be executed, you may get an error.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.CommandTimeout">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the time, in seconds, before terminating a long-running SQL command.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <property namespace="Borland.Data.Provider" class="BdpCommand">CommandTimeout</property> property is not currently supported. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Connection">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Specifies the <class namespace="Borland.Data.Provider">BdpConnection</class> used by this instance of the <class namespace="Borland.Data.Provider">BdpCommand</class>. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You must specify the connection object in the <class namespace="Borland.Data.Provider">BdpCommand</class> prior to executing a command.</para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">string bdpConn = "Provider=INTERBASE;VendorClient=gds32.dll;Database=employee.gdb;
+	Username="SYSDBA";Password="masterkey";Assembly=&lt;assembly name&gt;; /* Specify the correct assembly name. */
+BdpConnection bConn = new BdpConnection(bdpConn);
+bConn.Open();
+string bdpSQL;
+bdpSQL = "SELECT * FROM Employee";
+BdpCommand bdpCmd = new BdpCommand(bdpSQL, bConn);
+bConn.Close();
+</codeBlock>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">string bdpConn = "Provider=INTERBASE;VendorClient=gds32.dll;Database=employee.gdb;
+	Username="SYSDBA";Password="masterkey";Assembly=&lt;assembly name&gt;; /* Specify the correct assembly name. */
+TConn: TADONETConnection(bdpConn);
+TConn.Open();
+string bdpSQL;
+bdpSQL = "SELECT * FROM Employee";
+BdpCommand bdpCmd = new BdpCommand(bdpSQL, bConn);
+bConn.Close();
+</codeBlock>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.UpdatedRowSource">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets how command results are applied to the DataRow when used by the <method namespace="System.Data" class="DbDataAdapter">Update</method> method of the <class namespace="Borland.Data.Provider">BdpDataAdapter</class>. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use one of the following <type namespace="System.Data">UpdateRowSource</type> values. The default is <b>Both</b> unless the command is automatically generated; then the default is <b>None</b>. </para>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Constant</th>
+                        
+                  <th>Value</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>None</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>0</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Do not fetch new data for row at execution of command. Default if the command is automatically generated.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>OutputParameters</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>1</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Fetch new data for the row using output parameters.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>FirstReturnedRecord</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>2</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Fetch new data for the row using the first returned record.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>Both</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>3</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Fetch new data for the row using the first returned record and output parameters. Default.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <warning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>Not currently supported by BDP.NET. Included for future use.</para>
+                  
+            </warning>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Transaction">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Names the transaction in which the <class namespace="Borland.Data.Provider">BdpCommand</class> executes.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Specify the transaction you want the command to execute within. You must already have created the transaction prior to naming it with the <property namespace="borland.data.provider" class="bdpcommand">Transaction</property> method on the BdpCommand. </para>
+            <warning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>You cannot set the <property namespace="Borland.Data.Provicer" class="BdpCommand">Transaction</property> property if it is already set to a specific value, and the command is in the process of executing. If you set the transaction property to a <class namespace="Borland.Data.Provider">BdpTransaction</class> object that is not connected to the same <class namespace="Borland.Data.Provider">BdpConnection</class> as the <class namespace="Borland.Data.Provider">BdpCommand</class> object, an exception is thrown the next time you attempt to execute a statement.</para>
+                  
+            </warning>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">bdpConn.Open();
+BdpTransaction bdpTrans = bdpConn.BeginTransaction();
+string bdpSQL = "INSERT INTO Employee (...) VALUES (...)";
+BdpCommand bdpCmd = new BdpCommand(bdpSQL, bdpConn, bdpTrans);
+int intRecordsAffected = bdpCmd.ExecuteNonQuery();
+if (intRecordsAffected == 1)
+{
+    MessageBox.Show("Row updated.");
+    bdpTrans.Commit();
+}
+else
+{
+    // No records affected
+    MessageBox.Show("No row updated.");
+    bdpTrans.Rollback();
+}</codeBlock>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">bdpConn.Open();
+TTrans: TTransaction.BeginTransaction(bdpConn);
+string bdpSQL = "INSERT INTO Employee (...) VALUES (...)";
+BdpCommand bdpCmd = new BdpCommand(bdpSQL, bdpConn, TTrans);
+int intRecordsAffected = bdpCmd.ExecuteNonQuery();
+if (intRecordsAffected == 1)
+{
+    MessageBox.Show("Row updated.");
+    TTrans.Commit();
+}
+else
+{
+    // No records affected
+    MessageBox("No row updated.", [smbOK]);
+    TTrans.Rollback();
+}</codeBlock>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DesignTimeVisible">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Determines whether or not a command is visible at design time.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A boolean that can be set on a <class namespace="Borland.Data.Provider">BdpCommand</class> to determine the command's visibility during design time. </para>
+         </comments>
+      </member>
+      <member name="T:Borland.Data.Provider.BdpDataReader">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns a read-only stream of data rows from the data source.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A <class namespace="Borland.Data.Provider">BdpDataReader</class> is returned as a result of a SELECT or stored procedure execution from a call to <class namespace="Borland.Data.Provider">BdpCommand</class>. <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteReader</method>. Because there is no public constructor, you cannot directly instantiate a <class namespace="Borland.Data.Provider">BdpDataReader</class>. Instead, obtain the <class namespace="Borland.Data.Provider">BdpDataReader</class> through the <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteReader</method> method of the <class namespace="Borland.Data.Provider">BdpCommand</class> object. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpDataReader</class> provides a forward-only cursor and the associated cursor-level metadata. <class namespace="Borland.Data.Provider">BdpDataReader</class> methods such as <method namespace="Borland.Data.Provider" class="BdpDataReader">GetName</method>, <method class="BdpDataReader" namespace="Borland.Data.Provider">GetDataTypeName</method>, <method class="BdpDataReader" namespace="Borland.Data.Provider">GetFieldType</method>, <method class="BdpDataReader" namespace="Borland.Data.Provider">GetDataType</method>, and <method class="BdpDataReader" namespace="Borland.Data.Provider">GetDataSubType</method> provide the cursor-level metadata. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">For all of these methods, you must pass the ordinal of the column, which is zero-based, in the cursor. Given a column name, <method namespace="Borland.Data.Provider" class="BdpDataReader">GetOrdinal</method> returns the column ordinal or position in the select list. <method namespace="Borland.Data.Provider" class="BdpDataReader">GetName</method>, <method class="BdpDataReader" namespace="Borland.Data.Provider">GetDataTypeName</method>, and <method class="BdpDataReader" namespace="Borland.Data.Provider">GetFieldType</method> return the name, SQL datatype name, and the .NET Framework System.Type, respectively, for a particular column. <method class="BdpDataReader" namespace="Borland.Data.Provider">GetDataType</method> and <method class="BdpDataReader" namespace="Borland.Data.Provider">GetDataSubType</method> return the BDP logical datatype and the subtype, respectively. <method namespace="Borland.Data.Provider" class="BdpDataReader">GetSchemaTable</method> also can be used to retrieve the metadata of the cursor as a DataTable. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You can call <class namespace="Borland.Data.Provider">BdpDataReader</class>. <method namespace="Borland.Data.Provider" class="BdpDataReader">Read</method> to fetch records one after the other until a <b>false</b> value is returned, which indicates that you have hit the EOF. Before accessing individual column values, you can check to see if the data is NULL by calling <method namespace="Borland.Data.Provider" class="BdpDataReader">IsDBNull</method>. Then, depending on the datatype, you can call one of the field accessor methods, such as <method namespace="Borland.Data.Provider" class="BdpDataReader">GetInt16</method>, <method namespace="Borland.Data.Provider" class="BdpDataReader">GetInt32</method>, or <method namespace="Borland.Data.Provider" class="BdpDataReader">GetFloat</method>. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You can access BLOB data as a byte array or a character array by calling <method namespace="Borland.Data.Provider" class="BdpDataReader">GetBytes</method> or <method namespace="Borland.Data.Provider" class="BdpDataReader">GetChars</method>. A null buffer passed to these methods returns the size of the BLOB data available. The current implementation of <class namespace="Borland.Data.Provider">BdpDataReader</class> does not support fetching BLOB data by specifying offsets. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The initial state of the <class namespace="Borland.Data.Provider">BdpDataReader</class> returned from a call to <class namespace="Borland.Data.Provider">BdpCommand</class>. <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteReader</method> is <b>open</b>. Once all of the records have been fetched, you can call the <method class="BdpDataReader" namespace="Borland.Data.Provider">Close</method> method to free all of the cursor-related resources. To find out if a <class namespace="Borland.Data.Provider">BdpDataReader</class> is closed, you can check the <property namespace="Borland.Data.Provider" class="BdpDataReader">IsClosed</property> property. If the <class namespace="Borland.Data.Provider">BdpDataReader</class> is closed, it returns <b>True</b>, otherwise <b>False</b>. If CommandBehaviour.CloseConnection is specified in <method namespace="Borland.Data.Provider" class="BdpCommand">ExecuteReader</method>, the <class namespace="Borland.Data.Provider">BdpConnection</class> used for executing the SQL is also closed when the <class namespace="Borland.Data.Provider">BdpDataReader</class> is closed. The <method namespace="Borland.Data.Provider" class="BdpDataReader">NextResult</method> method returns <b>True</b> if more results are available from a stored procedure execution. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The following code snippet shows how to retrieve data using a <class namespace="Borland.Data.Provider">BdpDataReader</class>, assuming that a you already have a valid connection and command. </para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp"> public static void ExecuteCommand ( BdpCommand Comm ) 
+   {
+     Comm.CommandText  =  " SELECT * FROM EMPLOYEE";
+      Comm.Prepare();      
+      BdpDataReader Reader = Comm.ExecuteReader();
+      if ( Reader != null )
+      {
+         while (Reader.Read())
+         {
+            ShowData(Reader);                          
+         }
+         Reader.Close();
+      }
+      Comm.Close();
+   }
+
+   public static void ShowData(BdpDataReader Reader)
+   {
+      long retVal = 0, startIndex = 0;
+      int  buffSize = 0;
+      char []buffer = null;
+
+      for (Int32 index = 0; index &lt; Reader.FieldCount; index++)
+      {
+         //Check for NULL
+         if ( Reader.IsDBNull(index) )
+         {
+            Console.Write("NULL");
+         }
+         else
+         {
+            Type t =  Reader.GetFieldType(index);
+            if (t == typeof(Int16) )
+               Console.Write(Reader.GetInt16(index));
+            else if ( t == typeof(Int32) )
+               Console.Write(Reader.GetInt32(index));
+            else if ( t == typeof(String) )
+               Console.Write(Reader.GetString(index));
+            else if ( t == typeof(float) )
+               Console.Write(Reader.GetFloat(index));
+            else if ( t == typeof(double) )
+               Console.Write(Reader.GetDouble(index));
+            else if ( t == typeof(DateTime) )
+               Console.Write(Reader.GetDateTime(index));
+            else if ( t == typeof(Decimal) )
+               Console.Write(Reader.GetDecimal(index));
+            else if ( (t == typeof(Byte[])) || (t == typeof(Char[])) )
+            {
+               BdpType DataType =  Reader.GetDataType(index);
+               if (DataType == BdpType.Blob)
+               {
+                  retVal = Reader.GetChars(index, 0, null, 0, 0);
+                  Console.Write("Blob Size = " + retVal);
+                  buffSize = (int) retVal;
+
+                  //Display only character blob data
+                  if ( retVal &gt; 0 &amp;&amp; (t== typeof(Char[])) )
+                  {
+                     buffer = new char[buffSize];
+                     startIndex = 0;
+                     retVal = Reader.GetChars(index, startIndex, buffer, 0, buffSize);
+                     for (int i = 0; i &lt; buffer.Length; i++ )
+                        Console.Write(buffer[i]);
+                 }
+                    
+              }
+                 
+            }
+
+         }
+
+         if (index &lt; Reader.FieldCount -1)
+           Console.Write(", ");
+      }
+
+      Console.WriteLine();           </codeBlock>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.GetDataType">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets the data type of a given column.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                        
+                  <th>Type</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>i</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies the column number.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Int32</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns the BDP data type of a specified column. Specify the column number for the column. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> If you want to determine the subtype of a particular column, use the <class namespace="Borland.Data.Provider">GetDataSubType</class> method.</para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.GetDataSubType">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets the subtype of the given column, where the column number is indicated.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                        
+                  <th>Type</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>i</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies the column number.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Int32</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">One or more SQL types can map to the same <type namespace="Borland.Data.Common">BdpType</type>. To distinguish these SQL types, use a sybtype. For example CHAR and VARHCAR both map to <type namespace="Borland.Data.Common">BdpType.String</type>. The CHAR subtype is <type namespace="Borland.Data.Common">BdpType.stFixed</type>.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Depth">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets a value indicating the depth of nesting for the current row in the current table.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">This property implements the <interface namespace="System.Data">IDataReader</interface> interface <property namespace="System.Data" interface="IDataReader">Depth</property> property. The outermost table has a depth of 0.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.IsClosed">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns a Boolean indicating whether the data reader is closed or open.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns <b>True</b> if the DataReader is closed, <b>False</b> if open. The <property namespace="System.Data" interface="IDataReader">IsClosed</property> and <property namespace="System.Data" interface="IDataReader">RecordsAffected</property> properties are the only ones that you can call after the <class namespace="Borland.Data.Provider">BdpDataReader</class> is closed. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.RecordsAffected">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the number of rows changed, inserted, or deleted by execution of the SQL statement.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <property namespace="System.Data" interface="IDataReader">RecordsAffected</property> property contains the number of rows changed, inserted, or deleted. It contains zero (0) if no rows were affected or the statement failed, and -1 for SELECT statements. The <property namespace="System.Data" interface="IDataReader">RecordsAffected</property> property is not set until all rows are read and you close the <class namespace="Borland.Data.Provider">BdpDataReader</class>. The value of this property is cumulative. For example, if two records are inserted in batch mode, the value of <property namespace="System.Data" interface="IDataReader">RecordsAffected</property> is two. The <property namespace="System.Data" interface="IDataReader">IsClosed</property> and <property interface="IDataReader" namespace="System.Data">RecordsAffected</property> properties are the only ones that you can call after the <class namespace="Borland.Data.Provider">BdpDataReader</class> is closed. </para>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Returns</th>
+                        
+                  <th>When</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>0</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>No rows were affected or the statement failed.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>-1</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A SELECT statement is returned.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>Other numbers</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The number of rows affected. The value is cumulative and reflects actual records affected by batch mode operations. </para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.FieldCount">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the number of columns in the current row. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The value of this <property namespace="System.Data" interface="IDataRecord">FieldCount</property> property is zero (0) when not positioned in a valid recordset, otherwise it contains the number of columns in the current record. The default is -1. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Item">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the value of a column in its native format.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The indexer for the <class namespace="Borland.Data.Provider">BdpDataReader</class> class. You can specify either the string name of the column or the column ordinal. Using the ordinal is more efficient than using the name. </para>
+         </comments>
+      </member>
+      <member name="T:Borland.Data.Provider.BdpDataAdapter">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Acts as a bridge between a DataSet and the underlying database.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object is a bridge between the DataSet and the underlying database. It represents a set of data commands and a database connection that are used to fill the DataSet and update the data source. The <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object exposes methods to issue SQL commands against the underlying database, as well as others to manage the DataSet object. In addition to the Borland-specific methods described in this help file, the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object provides all of the functionality of the .NET <class namespace="System.Data">DataAdapter</class> object. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You must set the <property namespace="Borland.Data.Provider" class="BdpDataAdapater">SelectCommand</property> property with a valid SQL statement before you call the <method namespace="Borland.Data.Provider" class="BdpDataAdapter">Fill</method> method. This establishes the structure of the data to be returned from the database to the DataSet. If you choose to update your database with changes in the DataSet, you need to set the appropriate properties, either <property namespace="Borland.Data.Provider" class="BdpDataAdapter">InsertCommand</property>, <property namespace="Borland.Data.Provider" class="BdpDataAdapter">UpdateCommand</property>, or <property namespace="Borland.Data.Provider" class="BdpDataAdapter">DeleteCommand</property>, before you issue the update. For example, if you delete rows from the DataSet and you want this change to be reflected in the database, you need to first set the <property class="BdpDataAdapter" namespace="Borland.Data.Provider">DeleteCommand</property> property before starting your update of the database. Otherwise, if you do not set the command, there is no valid SQL command to issue against the database for the update and the update fails. The database, in that case, throws an exception, which you can trap.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">When the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">Active</property> property on the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> is set to <b>True</b>, the DataSet gets automatically filled with data. You can see this behavior during design-time, if you set the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">Active</property> property to <b>True</b>, then connect a DataGrid component to the DataSet.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> The <class namespace="Borland.Data.Provider">BdpConnection</class> associated with the SelectCommand is used to execute the command specified in the SelectCommand.CommandText. If the <class namespace="Borland.Data.Provider">BdpConnection</class> is already opened, it is used; otherwise, Fill takes care of opening the connection, executing the SQL statement, retrieving the result set, and closing the connection. While working with large result sets, the number of records that are populated into the DataSet can be controlled by using the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">MaxRecords</property> and the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">StartRecord</property> properties. The <class namespace="Borland.Data.Provider">BdpDataAdapter</class> provides <property namespace="Borland.Data.Provider" class="BdpDataAdapter">InsertCommand</property>, <property class="BdpDataAdapter" namespace="Borland.Data.Provider">UpdateCommand</property>, and <property class="BdpDataAdapter" namespace="Borland.Data.Provider">DeleteCommand</property> properties for resolving DataSet changes back into the data source. You must specify a valid parameterized SQL statement for each of these commands before calling the <method namespace="Borland.Data.Provider">Update</method> method. Based on the DataSet changes, the <method namespace="Borland.Data.Provider">Update</method> method executes INSERT, UPDATE, and DELETE commands and persists all the changes to the data source. The <method namespace="Borland.Data.Provider" class="BdpDataAdapter">AutoUpdate</method> method resolves data automatically without the need to specify all the SQL. <method namespace="Borland.Data.Provider" class="BdpDataAdapter">AutoUpdate</method>, in turn, uses a <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> to generate update, delete, and insert SQL. </para>
+            <warning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <para>Although using <method namespace="Borland.Data.Provider" class="BdpDataAdapter">AutoUpdate</method> makes operations seem simpler, the current implementation does not generate optimal SQL every time. Also, it does not handle master-detail updates. Until these issues are addressed, be aware that simplicity is achieved at the cost of performance.</para>
+            
+            </warning>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> For resolving data from a stored procedure or a complex SQL such as joins, <method namespace="Borland.Data.Provider" class="BdpDataAdapter">AutoUpdate</method> cannot be used. In these cases, the <class namespace="Borland.Data.Provider">BdpDataAdapter</class>
+               
+               <property class="BdpDataAdapter" namespace="Borland.Data.Provider">DeleteCommand</property>, <property class="BdpDataAdapter" namespace="Borland.Data.Provider">UpdateCommand</property>, and <property namespace="Borland.Data.Provider" class="BdpDataAdapter">InsertCommand</property> should be explicitly specified and you should use the <method namespace="Borland.Data.Provider" class="BdpDataAdapter">Update</method> method. Like the <method namespace="Borland.Data.Provider" class="BdpDataReader">GetSchemaTable</method> method in <class namespace="Borland.Data.Provider">BdpDataReader</class>, the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> also has a <method namespace="Borland.Data.Provider" class="BdpDataAdapter">FillSchema</method> method that creates a DataTable and configures the metadata to match the database. Consequently, to enforce integrity constraints, such as primary key and unique key, in the DataSet, you must call <method namespace="Borland.Data.Provider" class="BdpDataAdapter">FillSchema</method> before calling <method namespace="Borland.Data.Provider" class="BdpDataAdapter">Fill</method>. The <property namespace="Borland.Data.Provider" class="BdpDataAdapter">TableMappings</property> property allows column names to be mapped from the data source to more meaningful names. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The following code snippet shows how to provide and resolve data with a <class namespace="Borland.Data.Provider">BdpDataAdapter</class>. </para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">static void FillDataAdapter ( BdpConnection Conn )
+ {
+      int Rows = 0;
+
+BdpTransaction Trans = (BdpTransaction) Conn.BeginTransaction();
+	
+	BdpDataAdapter adapter = new BdpDataAdapter();
+BdpCommand Comm = new BdpCommand("SELECT * FROM TESTTABLE", Conn);
+	adapter.SelectCommand = Comm; 
+
+	DataTableMapping dataTabMap = adapter.TableMappings.Add("Table1","TESTTABLE");
+	DataSet ds = new DataSet(); 
+	adapter.FillSchema(ds, SchemaType.Source, "TESTTABLE");
+	Rows = adapter.Fill(ds, "TESTTABLE");
+
+	InsertRecord(Conn, adapter, ds.Tables["TESTTABLE"]);
+	adapter.Update(ds,"TESTTABLE");
+	ds.AcceptChanges();
+
+	Trans.Commit();
+    
+   }
+
+static void InsertRecord(BdpConnection Conn, BdpDataAdapter adapter, DataTable dataTable )
+  {
+    BdpCommand CommIns = new BdpCommand("INSERT INTO TESTTABLE VALUES(?)", Conn);
+    BdpParameter param1 = CommIns.Parameters.Add("FCHAR",DbType.StringFixedLength, 10);
+	param1.SourceColumn = "FCHAR";
+
+	adapter.InsertCommand = CommIns; 
+
+	//Insert 10 records
+	for ( int i=0; i &lt; 10; i++)
+	{
+		DataRow newRow = dataTable.NewRow();
+		newRow["FCHAR"] = "VINA" + i;
+		dataTable.Rows.Add(newRow);
+	}
+
+  }
+static void FillDataAdapter ( BdpConnection Conn )
+ {
+      int Rows = 0;
+
+BdpTransaction Trans = (BdpTransaction) Conn.BeginTransaction();
+	
+	BdpDataAdapter adapter = new BdpDataAdapter();
+BdpCommand Comm = new BdpCommand("SELECT * FROM TESTTABLE", Conn);
+	adapter.SelectCommand = Comm; 
+
+	DataTableMapping dataTabMap = adapter.TableMappings.Add("Table1","TESTTABLE");
+	DataSet ds = new DataSet(); 
+	adapter.FillSchema(ds, SchemaType.Source, "TESTTABLE");
+	Rows = adapter.Fill(ds, "TESTTABLE");
+
+	InsertRecord(Conn, adapter, ds.Tables["TESTTABLE"]);
+	adapter.Update(ds,"TESTTABLE");
+	ds.AcceptChanges();
+
+	Trans.Commit();
+    
+   }
+
+static void InsertRecord(BdpConnection Conn, BdpDataAdapter adapter, DataTable dataTable )
+  {
+BdpCommand CommIns = new BdpCommand("INSERT INTO TESTTABLE VALUES(?)", Conn);
+BdpParameter param1 = CommIns.Parameters.Add("FCHAR",DbType.StringFixedLength, 10);
+	param1.SourceColumn = "FCHAR";
+
+	adapter.InsertCommand = CommIns; 
+
+	//Insert 10 records
+	for ( int i=0; i &lt; 10; i++)
+	{
+		DataRow newRow = dataTable.NewRow();
+		newRow["FCHAR"] = "VINA" + i;
+		dataTable.Rows.Add(newRow);
+	}
+
+  }
+</codeBlock>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.BdpDataAdapter">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                        
+                  <th>Type</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>BdpComm</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies a <class namespace="Borland.Data.Provider">BdpCommand</class> object. If you prefer, you can create a string command rather than referencing an object. You can pass a reference to a <class namespace="Borland.Data.Provider">BdpCommand</class> and a connection string. You can also pass a <class namespace="Borland.Data.Provider">BdpCommand</class> and a <class namespace="Borland.Data.Provider">BdpConnection</class> object. </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <class namespace="Borland.Data.Provider">BdpCommand</class>
+                           
+                     </para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>BdpConn</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies a <class namespace="Borland.Data.Provider">BdpConnection</class> object. If you prefer, you can create a connection string, rather than referencing an object. You can pass a reference to a <class namespace="Borland.Data.Provider">BdpConnection</class> and a SQL command string. You can also pass a <class namespace="Borland.Data.Provider">BdpConnection</class> and a <class namespace="Borland.Data.Provider">BdpCommand</class> object. </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <class namespace="Borland.Data.Provider">BdpConnection</class>
+                           
+                     </para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>ConnString</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies a connection string. You can pass a connection string and a <class namespace="Borland.Data.Provider">BdpCommand</class> object. You can also pass a connection string and a SelectSQL string statement.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>String</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>SelectSQL</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Specifies a SQL statement. You can pass a command string and a <class namespace="Borland.Data.Provider">BdpConnection</class> object. You can also pass a command string and a connection string.</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>String</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> constructor to create a new instance of the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object. The data adapter serves as a bridge between the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> and the database. You use the data adapter when you intend to perform bidirectional operations on your database. The <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object provides the methods that allow you to make updates to a <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> and to populate your database with those changes. If you only want to read or manage data without concern for the database state, use the <class namespace="Borland.Data.Provider">BdpDataReader</class> object instead. You can impact database performance depending on how you construct and perform the updates when using the <class namespace="Borland.Data.Provider">BdpDataAdapter</class>.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">In the following sample code, the UPDATE statement uses the EmpID primary key value as the unique identifier for the row to be updated. The statement includes parameters (prefixed with the @ sign) to indicate the column and values for update.</para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">UPDATE Employee SET LastName = @LastName WHERE EmpID = @EmpID</codeBlock>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The parameters retrieve the data from the modified row with the SourceColumn property of the BdpParameter. Consider the use of parameters in the following code sample:</para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">BdpCommand1.BdpParameter.Add("@LastName", BdpType.String, 20, "LastName");
+BdpParameter myParm = new BdpParameter();
+myParm = BdpCommand1.UpdateCommand.Parameters.Add("@EmpID", BdpType.Int32, 5, "EmpID");
+myParm.SourceVersion = DataRowVersion.Original;</codeBlock>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="CSharp" os="all" product="all" status="release">BdpCommand1.BdpParameter.Add("@LastName", BdpType.String, 20, "LastName");
+BdpParameter myParm = new BdpParameter();
+myParm = BdpCommand1.UpdateCommand.Parameters.Add("@EmpID", BdpType.Int32, 5, "EmpID");
+myParm.SourceVersion = DataRowVersion.Original;</codeBlock>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A new parameter is added to the <class namespace="Borland.Data.Provider">BdpParameterCollection</class>. That parameter represents the value in the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SourceColumn</property> from the DataTable. In this example, the value is <i>LastName</i>. By setting the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">DataRowVersion</property> to Original, you are, in essence, taking a snapshot of the original state of the DataRow value and setting the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SourceVersion</property> to that same state. If you make a change to the DataRow value, it is changed to Current. A comparison of the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">DataRowVersion</property> to <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SourceVersion</property> shows that <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SourceVersion</property> is set to Original and <property namespace="Borland.Data.Provider" class="BdpDataAdapter">DataRowVersion</property> is set to Current. In that case, you need to perform the update to the given row in the database, in order to synchronize your changes.</para>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>Use named parameters for the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object.</para>
+                  
+            </note>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.FillSchema">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Adds a DataTable to the specified <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> and configures the schema to match the data source schema based on the specified <type namespace="System.Data">SchemaType</type>.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>DataTable</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The DataTable name.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>DataSet</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> name.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>SchemaType</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>An enumerator that specifies how to handle existing schema mappings when performing a <method namespace="System.Data" class="DataAdapter">FillSchema</method> operation. </para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>string</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A SQL statement.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>
+                              
+                        <class namespace="Borland.Data.Provider">BdpCommand</class>
+                           
+                     </para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>The current instance of a <class namespace="Borland.Data.Provider">BdpCommand</class>.</para>
+                        
+                  </td>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>CommandBehavior</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>Provides a description of the results of the query and its effect on the database.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">For more details, see the Microsoft .NET SDK online help description of the <method namespace="System.Data" class="DataAdapter">DataAdapter.FillSchema</method> method.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Active">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Populates or clears the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A Boolean that specifies the state of the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>. When set to <b>True</b>, populates the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> with the data returned from executing the <method namespace="Borland.Data.Provider" class="BdpCommand">SelectCommand</method>.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DataSet">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Specifies the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> to be populated when the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">Active</property> property of the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> is set to <b>True</b>.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.StartRecord">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The zero-based record number to start with when filling a <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If you know the number of the row from which you want to start filling the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>, you can indicate it with this property. Remember that it is zero-based. If you want to start filling a <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> with the tenth row, you set this property equal to the number 9. As your <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> is filled, it fills from that point on. If you re-execute the command, but somehow the property has also been reset to 0, the result set starts at the first row in the table. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.MaxRecords">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the maximum number of records to retrieve when filling a <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">This is equivalent to setting a maximum rowcount in a SQL statement.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.SelectCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A <class namespace="Borland.Data.Provider">BdpCommand</class> used during <method namespace="System.Data" class="DbDataAdapter">Fill</method> to select records from the database for placement in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">This property contains the SQL SELECT statement you assign to it. The property serves as a shorthand method for referring to a SQL statement that you expect to use many times. </para>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>When you assign the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SelectCommand</property> to a previously created <class namespace="Borland.Data.Provider">BdpCommand</class>, the <class namespace="Borland.Data.Provider">BdpCommand</class> is not cloned. The <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SelectCommand</property> maintains a reference to the previously created <class namespace="Borland.Data.Provider">BdpCommand</class> object. If the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SelectCommand</property> does not return any rows, no tables are added to the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>, and no exception is raised. </para>
+                  
+            </note>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.InsertCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A <class namespace="Borland.Data.Provider">BdpCommand</class> used during Update to insert records into the database that correspond to new rows in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">This property contains a SQL INSERT statement that you specify. This property acts as a form of shorthand, allowing you to store an INSERT statement that you expect to use multiple times. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">During Update, if you don't set this property and if primary key information is present in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>, you can generate the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">InsertCommand</property> automatically by setting the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SelectCommand</property> property and using the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>. Then, any additional commands that you do not set are generated by the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>. This generation logic requires key column information to be present in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If execution of this command returns rows, they can be added to the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> depending on how you set the <property namespace="Borland.Data.Provider" class="BdpCommand">UpdatedRowSource</property> property of the <class namespace="Borland.Data.Provider">BdpCommand</class> object. </para>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>When you assign <property namespace="Borland.Data.Provider" class="BdpDataAdapter">InsertCommand</property> to a previously created <class namespace="Borland.Data.Provider">BdpCommand</class>, the <class namespace="Borland.Data.Provider">BdpCommand</class> is not cloned. The <property namespace="Borland.Data.Provider" class="BdpDataAdapter">InsertCommand</property> maintains a reference to the previously created <class namespace="Borland.Data.Provider">BdpCommand</class> object. </para>
+                  
+            </note>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.UpdateCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A <class namespace="Borland.Data.Provider">BdpCommand</class> used during Update to update records in the data source that correspond to modified rows in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use this property to get or set the SQL UPDATE statement. You can use this property as a form of shorthand to define a SQL UPDATE statement that you intend to use multiple times. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">When <property namespace="Borland.Data.Provider" class="BdpDataAdapter">UpdateCommand</property> is assigned to a previously created <class namespace="Borland.Data.Adapter">BdpCommand</class>, the <class namespace="Borland.Data.Adapter">BdpCommand</class> is not cloned. The <property namespace="Borland.Data.Provider" class="BdpDataAdapter">UpdateCommand</property> maintains a reference to the previously created <class namespace="Borland.Data.Provider">BdpCommand</class> object. If execution of this command returns rows, these rows can be merged with the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> depending on how you set the <property namespace="Borland.Data.Provider" class="BdpCommand">UpdatedRowSource</property> property of the <class namespace="Borland.Data.Provider">BdpCommand</class> object. </para>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>During Update, if you don't set this property and primary key information is present in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>, the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">UpdateCommand</property> can be generated automatically if you set the <property namespace="Borland.Data.Provider" class="BdpCommandBuilder">SelectCommand</property> property and use the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>. Then, any additional commands that you don't set are generated by the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>. This generation logic requires key column information to be present in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>. </para>
+                  
+            </note>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DeleteCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A <class namespace="Borland.Data.Provider">BdpCommand</class> used during Update to delete records in the data source that correspond to deleted rows in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use this property to store a SQL DELETE statement that you intend to pass to the BdpDataAdapter multiple times. This property serves as a shorthand method for storing and calling a command that you intend to use multiple times.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">When you assign <property namespace="Borland.Data.Provider" class="BdpDataAdapter">DeleteCommand</property> to a previously created <class namespace="Borland.Data.Adapter">BdpCommand</class>, the <class namespace="Borland.Data.Adapter">BdpCommand</class> is not cloned. The <property namespace="Borland.Data.Adapter" class="BdpDataAdapter">DeleteCommand</property> maintains a reference to the previously created <class namespace="Borland.Data.Adapter">BdpCommand</class> object. </para>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <para>During Update, if you don't set this property and primary key information is present in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>, you can generate the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">DeleteCommand</property> automatically by setting the <property namespace="Borland.Data.Provider" class="BdpDataAdapter">SelectCommand</property> property and using the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>. Additional commands that you do not set are generated by the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>. This generation logic requires key column information to be present in the <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property>. For more information, see the Microsoft .NET SDK online help.</para>
+                  
+            </note>
+         </comments>
+      </member>
+      <member name="E:Borland.Data.Provider.Borland.Data.Provider.RowUpdating">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Indicates that the update process is attempting to update the row.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">This event is triggered after the update process begins but before the update has been completed. When you submit an update to a row, the <event namespace="borland.data.provider" class="bdpdataadapter">RowUpdating</event> event fires and then the <event namespace="borland.data.provider" class="bdpdataadapter">RowUpdated</event> event fires, once the row has been successfully updated. If you updated multiple rows, the two events fire in sequence, before and after each update to each row.</para>
+         </comments>
+      </member>
+      <member name="E:Borland.Data.Provider.Borland.Data.Provider.RowUpdated">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Indicates that the row has been updated.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The event is triggered after the update to the row has completed. When you submit an update to a row, the <event namespace="borland.data.provider" class="bdpdataadapter">RowUpdating</event> event fires and then the <event namespace="borland.data.provider" class="bdpdataadapter">RowUpdated</event> event fires, once the row has been successfully updated. If you updated multiple rows, the two events fire in sequence, before and after each update to each row. You can capture this event to refresh your <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> after you have updated rows in the database. If your application is to be used by multiple concurrent users who might be updating the same rows, it is important to refresh your <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> if you want to work on the most up-to-date results.</para>
+         </comments>
+      </member>
+      <member name="T:Borland.Data.Provider.BdpCommandBuilder">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Generates single-table commands as part of the operation of the <class namespace="Borland.Data.Provider">BdpDataAdapter</class>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> class is used to automatically generate single-table commands to reconcile changes made to a DataSet with its underlying database. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You can generate SQL commands based on the <method namespace="Borland.Data.Provider" class="BdpCommandBuilder">SelectCommand</method>, which you must set prior to executing any of the other <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> methods. The results of the <method namespace="Borland.Data.Provider" class="BdpCommandBuilder">SelectCommand</method> are used to return metadata that is then used to construct the arguments to the <method namespace="Borland.Data.Provider" class="BdpCommandBuilder">InsertCommand</method>, <method namespace="Borland.Data.Provider" class="BdpCommandBuilder">UpdateCommand</method>, or <method namespace="Borland.Data.Provider" class="BdpCommandBuilder">DeleteCommand</method> methods. If you want to achieve greater performance, you might want to consider using direct commands, rather than using the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If you review the SQL statements generated for the <method namespace="Borland.Data.Provider" class="BdpCommandBuilder">UpdateCommand</method> and <method namespace="Borland.Data.Provider" class="BdpCommandBuilder">DeleteCommand</method>, you see that they each contain a WHERE clause that specifies that the row can only be updated if it contains all original values and hasn't been deleted from the database. Records are not locked and therefore the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> operates on the basis of optimistic concurrency. If you try to update or delete a record that has been changed by another user, the operation throws a DBConcurrencyException.</para>
+            <note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <para>You can only use the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> on standalone tables. If you try to update a column that participates in a foreign-key constraint, you might encounter a failure. </para>
+            
+            </note>
+            <warning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <para>The SelectCommand must return at least one primary key or unique column.</para>
+            
+            </warning>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.BdpCommandBuilder">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Use to automatically generate single-table commands as part of the operation of the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> based on your SELECT statement.</para>
+         </summary>
+         <comments>
+            <table xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     
+               <tr>
+                        
+                  <th>Parameter</th>
+                        
+                  <th>Description</th>
+                     
+               </tr>
+                     
+               <tr>
+                        
+                  <td>
+                           
+                     <para>BdpAdapter</para>
+                        
+                  </td>
+                        
+                  <td>
+                           
+                     <para>A <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object. Optional.</para>
+                        
+                  </td>
+                     
+               </tr>
+                  
+            </table>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> class is used to automatically generate single-table commands to reconcile changes made to a <property namespace="borland.data.provider" class="bdpdataadapter">DataSet</property> with its underlying database. The <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> method creates a new instance of the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> object. You can optionally pass the name of a valid <class namespace="Borland.Data.Provider">BdpDataAdapter</class> object to the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> constructor. You use the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> object within the context of a <class namespace="Borland.Data.Provider">BdpCommand</class> object. You can specify commands in <varProduct name="Product"/> when constructing your <class namespace="Borland.Data.Provider">BdpCommand</class> object.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">You must set the <property namespace="Borland.Data.Provider" class="BdpCommandBuilder">SelectCommand</property> property of the <class namespace="Borland.Data.Provider">BdpDataAdapter</class>. To generate INSERT, UPDATE, or DELETE statements, the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> uses the <property namespace="borland.data.provider" class="bdpdataadapter">SelectCommand</property> property to retrieve a required set of metadata automatically. If you change the <property namespace="Borland.Data.Provider" class="BdpCommandBuilder">SelectCommand</property> after the metadata has is retrieved (for example, after the first update), you should call the <method namespace="System.Data" interface="IDbCommandBuilder">RefreshSchema</method> method to update the metadata. Additional SQL statements that you do not set are generated by the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class>. </para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> registers itself as a listener for <event namespace="Borland.Data.Provider" class="BdpCommand">RowUpdating</event> events whenever you set the <property class="BdpCommandBuilder" namespace="Borland.Data.Provider">DataAdapter</property> property. You can only associate one <class namespace="Borland.Data.Provider">BdpDataAdapter</class> or <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> object with each other at one time. The <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> also uses the <property class="BdpCommand" namespace="Borland.Data.Provider">Connection</property>, <property class="BdpCommand" namespace="Borland.Data.Provider">CommandTimeout</property>, and <property class="BdpCommand" namespace="Borland.Data.Provider">Transaction</property> properties referenced by the <property class="BdpDataAdapter" namespace="Borland.Data.Provider">SelectCommand</property>. Call <method namespace="System.Data" interface="IDbCommandBuilder">RefreshSchema</method> if any of these properties are modified, or if the <property class="BdpCommandBuilder" namespace="Borland.Data.Provider">SelectCommand</property> itself is replaced. Otherwise the <property class="BdpDataAdapter" namespace="Borland.Data.Provider">InsertCommand</property>, <property class="BdpDataAdapter" namespace="Borland.Data.Provider">UpdateCommand</property>, and <property namespace="Borland.Data.Provider" class="BdpDataAdapter">DeleteCommand</property> properties retain their previous values. If you call <method namespace="Borland.Data.Provider" interface="IDispose">Dispose</method>, the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> is disassociated from the <class namespace="Borland.Data.Provider">BdpDataAdapter</class>, and the generated commands are no longer used. </para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.GetInsertCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns an INSERT statement for the given table.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.GetUpdateCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns an UPDATE command for a given table by using the appropriate WHERE clause.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.GetDeleteCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns a DELETE statement for a given table by using the appropriate WHERE clause. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Used to delete records in the data source for deleted rows in the data set.</para>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.RefreshSchema">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Executes a query against the data source to refresh the schema for the CommandBuilder.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns void.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DataAdapter">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the <class namespace="Borland.Data.Adapter">BdpDataAdapter</class> object for which you want to generate SQL statements with the <class namespace="Borland.Data.Adapter">BdpCommandBuilder</class>.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> registers itself as a listener for <event namespace="Borland.Data.Provider" class="BdpDataAdapter">RowUpdating</event> events that are generated by the <class namespace="Borland.Data.Provider">BdpDataAdapter</class> specified in this property. When you create a new instance of the <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> object, any existing <class namespace="Borland.Data.Provider">BdpCommandBuilder</class> associated with the current <class namespace="Borland.Data.Provider">BdpDataAdapter</class> is released. </para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.QuotePrefix">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the beginning character to use when specifying database object names.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the beginning character or characters to use when specifying database object names, (for example, tables or columns), that contain characters such as spaces.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.QuoteSuffix">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the ending character to use when specifying database object names.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Gets or sets the ending character or characters to use when specifying database object names, (for example, tables or columns), that contain characters such as spaces.</para>
+         </comments>
+      </member>
+      <member name="T:Borland.Data.Provider.BdpCopyTable">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <class namespace="Borland.Data.Provider">BdpCopyTable</class> copies a table (structure, primary key, and data) from one <varTechnology name="BDP"/> data source to another. </para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               
+               <class namespace="Borland.Data.Provider">BdpCopyTable</class> is used to copy tables from one <varTechnology name="BDP"/> data source to another. <class namespace="Borland.Data.Provider">BdpCopyTable</class> copies the structure, primary key, and data for a table. BdpCopyTable.SourceCommand specifies the source table to be copied and the current implementation supports only CommandType.TableDirect. Destination and DestinationTable properties specify the destination BdpConnection and the destination table name respectively. BdpCopyTable Copy() method performs the actual data migration.</para>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The following simple code example shows how <class namespace="Borland.Data.Provider">BdpCopyTable</class> can be used to programmatically migrate data:</para>
+            <codeBlock xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">public static void CopyTable(BdpConnection srcConn, String srcTable,
+                                               BdpConnection destConn, String destTable)
+{
+   try
+   {
+      BdpCopyTable CopyTable = new BdpCopyTable();
+      CopyTable.Tracing = false;
+      BdpCommand srcComm = new BdpCommand();
+      srcComm.Connection = srcConn;
+      srcComm.CommandText = srcTable;
+      srcComm.CommandType = CommandType.TableDirect;
+      CopyTable.SourceCommand = srcComm;
+      CopyTable.Destination = destConn;
+      CopyTable.DestinationTable = destTable;
+      CopyTable.Copy();
+   }
+   catch (Exception ex)
+   {
+       Console.WriteLine(ex.Message);   
+       return; 
+   }
+}</codeBlock>
+         </comments>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.BdpCopyTable">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Creates a new instance of a <class namespace="Borland.Data.Provider">BdpCopyTable</class> object.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="M:Borland.Data.Provider.Borland.Data.Provider.Copy">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Initiates a copy table operation.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Returns an Int32.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.SourceCommand">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpCommand</class> object for the source data table.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Destination">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The <class namespace="Borland.Data.Provider">BdpConnection</class> of the destination table.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The destination is required so that <class namespace="Borland.Data.Provider">BdpCopyTable</class> can connect to the destination provider to accomplish the copy operation.</para>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DestinationTable">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The name of the target table that the source table will be copied into.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Trace">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">A trace of the current data table.</para>
+         </summary>
+         <comments/>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DestinationDatabase">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The name of the destination database for the copy table operation.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.DestinationProvider">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The name of the destination data provider.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.SourceDatabase">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The name of the database that will be the source of the copy table operation.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.SourceProvider">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The name of the data provider that will be the source of the copy operation.</para>
+         </summary>
+         <comments>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         </comments>
+      </member>
+      <member name="P:Borland.Data.Provider.Borland.Data.Provider.Tracing">
+         <summary>
+            <para xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">If <b>True</b>, tracing is enabled for the data table. If <b>False</b>, tracing is disabled.</para>
+         </summary>
+         <comments/>
+      </member>
+   </members>
+</doc>

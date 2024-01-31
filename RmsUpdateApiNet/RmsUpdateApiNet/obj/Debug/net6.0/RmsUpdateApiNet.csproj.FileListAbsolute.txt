@@ -1,0 +1,12 @@
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\bin\Debug\net6.0\RmsUpdateApiNet.deps.json
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\bin\Debug\net6.0\RmsUpdateApiNet.dll
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\bin\Debug\net6.0\RmsUpdateApiNet.pdb
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\RmsUpdateApiNet.csproj.AssemblyReference.cache
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\RmsUpdateApiNet.GeneratedMSBuildEditorConfig.editorconfig
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\RmsUpdateApiNet.AssemblyInfoInputs.cache
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\RmsUpdateApiNet.AssemblyInfo.cs
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\RmsUpdateApiNet.csproj.CoreCompileInputs.cache
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\RmsUpdateApiNet.dll
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\refint\RmsUpdateApiNet.dll
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\RmsUpdateApiNet.pdb
+E:\Trabajo\RmsUpdateApiNet\RmsUpdateApiNet\obj\Debug\net6.0\ref\RmsUpdateApiNet.dll

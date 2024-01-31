@@ -1,0 +1,11 @@
+[
+  { "Extencion": ".rar" },
+  { "Extencion": ".zip" },
+  { "Extencion": ".ini" },
+  { "Extencion": ".git" },
+  { "Extencion": ".gdoc" },
+  { "Extencion": ".driveupload" },
+  { "Extencion": ".drivedownload" },
+  { "Extencion": ".tmp" },
+  { "Extencion": ".bak" }
+]

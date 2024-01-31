@@ -1,0 +1,8 @@
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\bin\Release\RmsUpdateApiNet.dll
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\bin\Release\RmsUpdateApiNet.pdb
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\bin\Release\Newtonsoft.Json.dll
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\obj\Release\RmsUpdateApiNet.csproj.AssemblyReference.cache
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\obj\Release\RmsUpdateApiNet.csproj.CoreCompileInputs.cache
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\obj\Release\RmsUpdateApiNet.csproj.CopyComplete
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\obj\Release\RmsUpdateApiNet.dll
+E:\Trabajo\UpdateNuevo3\RmsUpdateApiNet\obj\Release\RmsUpdateApiNet.pdb
